@@ -16,9 +16,7 @@ class MovieSeeder extends Seeder
     public function run(): void
     {
         $directors = Director::all();
-        $movies = Movie::factory(250)->create(
-            ['num_director'=>$directors[rand(1,100)]]
-        );
+        $movies = Movie::factory(250)->sequence(fn($sequence)=>['num_director'=>$directors->random()])->create();
         foreach($movies as $movie){
             $numberOfActors = rand(1,25);
             $actors = Actor::inRandomOrder()->limit($numberOfActors)->get();

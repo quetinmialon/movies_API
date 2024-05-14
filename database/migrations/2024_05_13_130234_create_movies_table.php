@@ -16,24 +16,25 @@ return new class extends Migration
             $table->string('name');
             $table->integer('duration');
             $table->string('synopsis');
-            $table->string('num_director');
+            
             $table->string('release');
             $table->timestamps();
-            $table->foreign('num_director')->references('num_director')->on('directors');
+            $table->string('num_director');
+            $table->foreign('num_director')->references('num_director')->on('directors')->onDelete('cascade');
         });
 
         Schema::create('actor_movie', function(Blueprint $table){
             $table->integer('num_movie');
             $table->integer('num_actor');
             $table->timestamps();
-            $table->foreign('num_movie')->references('num_movie')->on('movies');
-            $table->foreign('num_actor')->references('num_actor')->on('actors');
+            $table->foreign('num_movie')->references('num_movie')->on('movies')->onDelete('cascade');
+            $table->foreign('num_actor')->references('num_actor')->on('actors')->onDelete('cascade');
+            $table->unique(['num_actor','num_movie']);
         });
     }
     public function down(): void
     {
         Schema::dropIfExists('movies');
-        Schema::dropIfExists('actor_movie');
-        
+        Schema::dropIfExists('actor_movie');     
     }
 };

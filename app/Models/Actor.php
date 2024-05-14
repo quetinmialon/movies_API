@@ -15,5 +15,11 @@ class Actor extends Model
         'num_actor',
         'name',
     ];
+
+    public function movies()
+    {
+        return $this->belongsToMany(Movie::class, 'actor_movie', 'num_actor', 'num_movie');
+    }
+    
     use HasFactory;
 }
